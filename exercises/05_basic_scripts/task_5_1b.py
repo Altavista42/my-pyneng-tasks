@@ -51,5 +51,5 @@ london_co = {
     },
 }
 name = input("Введите имя устройства: ")
-param = input("Введите имя параметра {} : ".format(london_co[name].keys()))
+param = input("Введите имя параметра ( {} ) : ".format(', '.join(london_co[name].keys())))
 print(london_co[name][param])
