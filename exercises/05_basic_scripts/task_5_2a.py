@@ -49,3 +49,34 @@ bin_ip = "00001010000000010000000111000011"
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
+net = input("Введите IP-адрес сети и маску в формате \"10.10.10.0/24\": ")
+net_list = list((net.replace(".", " ").replace("/", " ")).split())
+mask = int(net_list[4])
+arg0 = (bin(int(net_list[0]))).replace("0b", "")
+arg1 = (bin(int(net_list[1]))).replace("0b", "")
+arg2 = (bin(int(net_list[2]))).replace("0b", "")
+arg3 = (bin(int(net_list[3]))).replace("0b", "")
+mask_bin = "1"*mask + "0"*(32 - mask)
+mask_bin0 = int(mask_bin[0:8], 2)
+mask_bin1 = int(mask_bin[8:16], 2)
+mask_bin2 = int(mask_bin[16:24], 2)
+mask_bin3 = int(mask_bin[24:], 2)
+
+ip_bin = "0"*(8 - len(arg0)) + arg0 + "0"*(8 - len(arg1)) + arg1 + "0"*(8 - len(arg2)) + arg2 + "0"*(8 - len(arg3)) + arg3
+ip_net = ip_bin[0:(mask + 1)] + "0"*(32 - mask)
+ip_net0 = int(ip_net[0:8], 2)
+ip_net1 = int(ip_net[8:16], 2)
+ip_net2 = int(ip_net[16:24], 2)
+ip_net3 = int(ip_net[24:32], 2)
+
+template = f"""
+Network:
+{ip_net0:<10}{ip_net1:<10}{ip_net2:<10}{ip_net3:<10}
+{ip_net0:08b}  {ip_net1:08b}  {ip_net2:08b}  {ip_net3:08b}
+
+Mask:
+/{mask}
+{mask_bin0:<10}{mask_bin1:<10}{mask_bin2:<10}{mask_bin3:<10}
+{mask_bin0:08b}  {mask_bin1:08b}  {mask_bin2:08b}  {mask_bin3:08b}
+"""
+print(template)
