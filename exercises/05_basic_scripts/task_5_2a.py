@@ -63,7 +63,7 @@ mask_bin2 = int(mask_bin[16:24], 2)
 mask_bin3 = int(mask_bin[24:], 2)
 
 ip_bin = "0"*(8 - len(arg0)) + arg0 + "0"*(8 - len(arg1)) + arg1 + "0"*(8 - len(arg2)) + arg2 + "0"*(8 - len(arg3)) + arg3
-ip_net = ip_bin[0:(mask + 1)] + "0"*(32 - mask)
+ip_net = ip_bin[:mask] + "0"*(32 - mask)
 ip_net0 = int(ip_net[0:8], 2)
 ip_net1 = int(ip_net[8:16], 2)
 ip_net2 = int(ip_net[16:24], 2)
