@@ -55,7 +55,7 @@ vlan = input("Введите номер влан(ов): ")
 
 access_template = [
     "switchport mode access",
-    f"switchport access vlan {vlan}",
+    "switchport access vlan {}",
     "switchport nonegotiate",
     "spanning-tree portfast",
     "spanning-tree bpduguard enable",
@@ -64,11 +64,11 @@ access_template = [
 trunk_template = [
     "switchport trunk encapsulation dot1q",
     "switchport mode trunk",
-    f"switchport trunk allowed vlan {vlan}",
+    "switchport trunk allowed vlan {}",
 ]
 
 state_dict = { "access" : access_template , "trunk" : trunk_template }
 
 
 print(f"interface {interface}")
-print("\n".join(state_dict[mode]))
+print(("\n".join(state_dict[mode])).format(vlan))
