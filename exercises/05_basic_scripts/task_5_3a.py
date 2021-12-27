@@ -1,3 +1,4 @@
+#!/home/r2d2/venv/Test/bin/python -b
 # -*- coding: utf-8 -*-
 """
 Задание 5.3a
