@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*
 """
 Задание 7.2b
 
@@ -15,5 +15,17 @@
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
-
+from sys import argv
+source = argv[1]
+dest = argv[2]
+list_result = []
 ignore = ["duplex", "alias", "configuration"]
+with open(source) as config:
+    for line in config:
+        if not (line.startswith("!")):
+            new_list = line.split()
+            set_intersect = set(new_list).intersection(set(ignore))
+            if not set_intersect:
+                list_result.append(line)
+    with open(dest, "w") as result:
+        result.writelines(list_result)
