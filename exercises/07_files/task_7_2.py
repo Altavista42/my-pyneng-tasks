@@ -39,7 +39,11 @@ interface Ethernet0/3
 ...
 
 """
-with open("config_sw1.txt","r") as config:
+from sys import argv
+
+filename = argv[1]
+
+with open(filename) as config:
     for line in config:
         new_list = line.split()
         if new_list[0][0].isalnum() == True:
