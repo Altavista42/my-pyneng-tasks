@@ -40,3 +40,18 @@
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
+sort_list = []
+cam_template = "{:4}     {:<14}      {:<5}"
+with open("CAM_table.txt", "r") as cam_table:
+    for line in cam_table:
+        new_list = line.split()
+        list_len = len(new_list)
+        if list_len > 2:
+            if new_list[0][0].isdigit() and new_list[1][0].isalnum():
+                new_list.remove("DYNAMIC")
+                new_list[0] = int(new_list[0])
+                sort_list.append(new_list)
+                sort_list.sort()
+                sort_len = len(sort_list)
+    for i in range(0,sort_len):
+        print(cam_template.format(sort_list[i][0], sort_list[i][1], sort_list[i][2]))
