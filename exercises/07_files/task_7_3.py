@@ -20,3 +20,14 @@
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
+
+cam_template = "{:<4}     {:<14}      {:<5}"
+with open("CAM_table.txt","r") as cam_table:
+    for line in cam_table:
+        new_list = line.split()
+        list_len = len(new_list)
+        if list_len == 4:
+            if new_list[0][0].isdigit() and new_list[1][0].isalnum():
+                print(cam_template.format(new_list[0], new_list[1], new_list[3]))
+
+
