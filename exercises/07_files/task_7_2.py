@@ -39,3 +39,8 @@ interface Ethernet0/3
 ...
 
 """
+with open("config_sw1.txt","r") as config:
+    for line in config:
+        new_list = line.split()
+        if new_list[0][0].isalnum() == True:
+            print(line.rstrip())
