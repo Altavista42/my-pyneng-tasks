@@ -85,4 +85,3 @@ def generate_access_config(intf_vlan_mapping, access_template):
     return access_port_list
 
 
-print(generate_access_config(access_config, access_mode_template))
