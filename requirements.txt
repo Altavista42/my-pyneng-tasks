@@ -3,3 +3,5 @@ yaml==6.0
 netmiko
 pexpect
 paramiko
+textfsm
+jinja2
