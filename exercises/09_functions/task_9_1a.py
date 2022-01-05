@@ -51,7 +51,7 @@ def generate_access_config(intf_vlan_mapping, access_template, psecurity=None):
          'FastEthernet0/14':11,
          'FastEthernet0/16':17}
     access_template - список команд для порта в режиме access
-
+    psecurity  - список команд, отвечающих за настройку port_security на порту
     Возвращает список всех портов в режиме access с конфигурацией на основе шаблона
     """
     access_port_list = []
