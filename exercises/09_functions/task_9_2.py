@@ -76,10 +76,12 @@ def generate_trunk_config(intf_vlan_mapping, trunk_template):
         list_ports_trunk.append(f"interface {intf}")
         for command in trunk_template:
             if command.endswith("vlan"):
-                a = str(vlans).replace("[","").replace("]","").replace(" ","")
-                list_ports_trunk.append(command + f" {a}")
+                vlan_str = str(vlans).replace("[","").replace("]","").replace(" ","")
+                list_ports_trunk.append(command + f" {vlan_str}")
             else:
                 list_ports_trunk.append(command)
     return list_ports_trunk
+
+
 
 
