@@ -82,6 +82,7 @@ trunk = {
 #         else:
 #             print(f" {command}")
 
+
 keys = list(trunk.keys())
 values = list(trunk.values())
 rulls = []
@@ -103,5 +104,4 @@ for i in range(list_len):
                 print(f" {command} {rulls[i]} {vlans}")
         else:
             print(f" {command}")
-
 
