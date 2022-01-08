@@ -27,6 +27,11 @@ from sys import argv
 config_filename = argv[1]
 
 def get_int_vlan_map(config_filename):
+    """
+    Функция обрабатывает конфигурационный файл коммутатора и возвращает кортеж из двух словарей:
+     - словарь портов в режиме access, где ключи номера портов, а значения access VLAN (числа).
+     - словарь портов в режиме trunk, где ключи номера портов,а значения список разрешенных VLAN (список чисел).
+    """
     dict_access = {}
     dict_trunk = {}
     with open(config_filename) as config:
