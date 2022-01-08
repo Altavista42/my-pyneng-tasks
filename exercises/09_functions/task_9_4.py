@@ -64,3 +64,30 @@ def ignore_command(command, ignore):
         if word in command:
             ignore_status = True
     return ignore_status
+
+from sys import argv
+config_filename = argv[1]
+def convert_config_to_dict(config_filename):
+    """
+Функция брабатывает конфигурационный файл коммутатора и возвращает словарь:
+ - ключами являются команды верхнего уровня (глобального режима конфигурации);
+ - В качестве значений указываются подкоманды команд верхнего уровня, если же подкоманды отсутствуют,
+ то в качестве значения указывается пустой список.
+    """
+    dict_config = {}
+    with open(config_filename) as config:
+        for command in config:
+            if not command.startswith("!") and ignore_command(command,ignore) == False:
+                if command[0].isalnum():
+                    list_value = []
+                    intf = command.rstrip()
+                    dict_config[intf] = list_value
+                if command.startswith(" "):
+                    value = command[1:].rstrip()
+                    list_value.append(value)
+                    dict_config[intf] = list_value
+        return dict_config
+
+
+
+
