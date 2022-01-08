@@ -77,7 +77,7 @@ def convert_config_to_dict(config_filename):
     dict_config = {}
     with open(config_filename) as config:
         for command in config:
-            if not command.startswith("!") and ignore_command(command,ignore) == False:
+            if command and not (command.startswith("!") or ignore_command(command,ignore)):
                 if command[0].isalnum():
                     list_value = []
                     intf = command.rstrip()
