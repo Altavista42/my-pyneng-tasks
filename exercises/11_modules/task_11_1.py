@@ -34,15 +34,26 @@ R6           Fa 0/2          143           R S I           2811       Fa 0/0
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 """
 
-
 def parse_cdp_neighbors(command_output):
     """
-    Тут мы передаем вывод команды одной строкой потому что именно в таком виде будет
-    получен вывод команды с оборудования. Принимая как аргумент вывод команды,
-    вместо имени файла, мы делаем функцию более универсальной: она может работать
-    и с файлами и с выводом с оборудования.
-    Плюс учимся работать с таким выводом.
+  Функция обрабатывает вывод команды show cdp neighbors.
+  command_output - параметр, принимающий, в качестве аргумент вывод команды show cdp neighbors одной строкой.
+  Возвращает словарь, который описывает соединения между устройствами.
     """
+    dict_cdp_intf = {}
+    command_output = command_output.split("\n")
+    for line in command_output:
+        amt = len(line.split())
+        if line and not (amt == 0 or "Capability" in line or "Switch" in line):
+            if "show cdp neighbors" in line:
+                main_device = line.replace(">"," ").split()[0]
+            else:
+                line = line.split()
+                local_intf = line[1] + line[2]
+                device_id = line[0]
+                port_id = line[-2] + line[-1]
+                dict_cdp_intf[main_device, local_intf] = (device_id, port_id)
+    return dict_cdp_intf
 
 
 if __name__ == "__main__":
