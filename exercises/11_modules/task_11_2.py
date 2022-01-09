@@ -28,9 +28,30 @@ Cгенерировать топологию, которая соответст�
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
+from task_11_1 import parse_cdp_neighbors
+from pprint import pprint
+
 infiles = [
     "sh_cdp_n_sw1.txt",
     "sh_cdp_n_r1.txt",
     "sh_cdp_n_r2.txt",
     "sh_cdp_n_r3.txt",
 ]
+
+def create_network_map(filenames):
+    """
+    Функция обрабатывает вывод команды show cdp neighbors из нескольких файлов и объединяет его в одну
+    общую топологию.
+    filenames - принимает в качестве аргумента список имен файлов, содержащих вывод команды show cdp neighbors
+    Возвращает словарь, который описывает соединения между устройствами.
+    """
+    general_dict = {}
+    for file in filenames:
+        with open(file) as command:
+            dict = parse_cdp_neighbors(command.read())
+            general_dict.update(dict)
+    return general_dict
+
+if __name__ == "__main__":
+    topology = create_network_map(infiles)
+    pprint(topology)
