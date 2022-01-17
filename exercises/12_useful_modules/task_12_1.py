@@ -27,7 +27,7 @@ def ping_ip_addresses(ip_list):
     alive_ip = []
     unreach_ip = []
     for ip in ip_list:
-        command = subprocess.run(['ping', '{}'.format(ip)], stdout=subprocess.DEVNULL)
+        command = subprocess.run(['ping', '{}'.format(ip), '-c', '3'], stdout=subprocess.DEVNULL)
         if command.returncode == 0:
             alive_ip.append(ip)
         else:
