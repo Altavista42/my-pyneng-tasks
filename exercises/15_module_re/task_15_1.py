@@ -45,5 +45,5 @@ def get_ip_from_cfg(config_file):
 			intf_list.append(new_set)
 	return intf_list
 
-#if __name__ == "__main__":
-#	print(get_ip_from_cfg("config_r1.txt"))
+if __name__ == "__main__":
+	print(get_ip_from_cfg("config_r1.txt"))
