@@ -23,3 +23,27 @@
 а не ввод пользователя.
 
 """
+import re
+
+
+def get_ip_from_cfg(config_file):
+	"""
+	Функция обрабатывает конфигурационный файл и возвращает IP-адреса и маски.
+	config_file - ожидает в качестве аргумента имя конфигурационного файла
+	Возвращает список кортежей:
+	- первый элемент кортежа - IP-адрес
+	- второй элемент кортежа - маска
+	"""
+	regex = re.compile(r'address (?P<ip>[\d.]+) (?P<mask>[\d.]+)')
+	intf_list = []
+	with open(config_file) as config:
+		new_set = ()
+		for line in regex.finditer(config.read()):
+			ip = line.group('ip')
+			mask = line.group('mask')
+			new_set = (ip,mask)
+			intf_list.append(new_set)
+	return intf_list
+
+#if __name__ == "__main__":
+#	print(get_ip_from_cfg("config_r1.txt"))
