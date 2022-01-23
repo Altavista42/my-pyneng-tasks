@@ -34,7 +34,7 @@ def get_ip_from_cfg(config_file):
 	- первый элемент кортежа - IP-адрес
 	- второй элемент кортежа - маска
 	"""
-	regex = re.compile(r'address (?P<ip>[\d.]+) (?P<mask>[\d.]+)')
+	regex = re.compile(r'address (?P<ip>\S+) (?P<mask>\S+)')
 	intf_list = []
 	with open(config_file) as config:
 		new_set = ()
