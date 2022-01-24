@@ -28,3 +28,31 @@ IP-адреса, диапазоны адресов и так далее, так 
 а не ввод пользователя.
 
 """
+import re
+
+regex_key = re.compile(r'interface (?P<intf>\S+).+ip address \S+', re.DOTALL)
+regex_value = re.compile(r'ip address (?P<IP>\S+) (?P<mask>\S+)')
+
+def get_ip_from_cfg(config_file):
+    """
+    Функция обрабатывает конфигурационный файл и выводит имя интерфейса, IP-адрес, маску.
+    config_file - Ожидает в качестве аргумента название конфигурационного файла.
+    Возвращает словарь:
+    - ключ: имя интерфейса
+    - значение: список кортежей с двумя строками:
+    - IP-адрес
+    - маска
+    """
+    config_dict = {}
+    with open(config_file) as conf:
+        config = conf.read().split('!')
+        for line in config:
+            if regex_key.findall(line) and regex_value.findall(line):
+                key = regex_key.findall(line)[0]
+                value = regex_value.findall(line)
+                config_dict[key] = value
+    return config_dict
+
+
+if __name__ == "__main__":
+    print(get_ip_from_cfg("config_r2.txt"))
