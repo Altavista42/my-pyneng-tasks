@@ -30,9 +30,6 @@ IP-адреса, диапазоны адресов и так далее, так 
 """
 import re
 
-regex_key = re.compile(r'interface (?P<intf>\S+).+ip address \S+', re.DOTALL)
-regex_value = re.compile(r'ip address (?P<IP>\S+) (?P<mask>\S+)')
-
 def get_ip_from_cfg(config_file):
     """
     Функция обрабатывает конфигурационный файл и выводит имя интерфейса, IP-адрес, маску.
@@ -43,6 +40,8 @@ def get_ip_from_cfg(config_file):
     - IP-адрес
     - маска
     """
+    regex_key = re.compile(r'interface (?P<intf>\S+).+ip address \S+', re.DOTALL)
+    regex_value = re.compile(r'ip address (?P<IP>\S+) (?P<mask>\S+)')
     config_dict = {}
     with open(config_file) as conf:
         config = conf.read().split('!')
