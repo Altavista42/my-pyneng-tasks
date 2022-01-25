@@ -31,7 +31,7 @@ def get_ints_without_description(config_file):
 	Функция обрабатывать конфигурацию и возвращать список имен интерфейсов,на которых нет описания (команды description
 	config_file - ожидает в качестве аргумента имя конфигурационного файла.
 	"""
-	regex = re.compile(r'interface (?P<intf>\S+\d+)\n (?!description)', re.DOTALL)
+	regex = re.compile(r'interface (?P<intf>\S+\d+)\n (?!description)')
 	with open(config_file) as config:
 		intf_list = [line.group('intf') for line in regex.finditer(config.read())]
 	return intf_list
