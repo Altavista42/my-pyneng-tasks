@@ -28,6 +28,15 @@ regex = re.compile(r'(?P<intf>\S+)\s+(?P<IP>\d+\S+|unassigned)'
 					r'\s+(?P<protocol>\S+)')
 
 def parse_sh_ip_int_br(file_config):
+	"""
+	Функция обрабатывает вывод команды show ip int brief и возвращает такие поля:
+	- Interface;
+	- IP-Address;
+	- Status;
+	- Protocol;
+	file_config - ожидает в качестве аргумента вывод команды sh ip int brief.
+	Возвращает список кортежей.
+	"""
 	with open(file_config) as config:
 		config_list = [line.groups() for line in regex.finditer(config.read())]
 	return config_list
