@@ -47,7 +47,7 @@ def convert_ios_nat_to_asa(config_file, NAT_ASA_file):
 object network LOCAL_{}
  host {}
  nat (inside,outside) static interface service tcp {} {}
-"""
+	"""
 	with open(config_file) as config, open(NAT_ASA_file, 'w') as dest:
 		for line in regex.finditer(config.read()):
 			IP = line.group('IP')
