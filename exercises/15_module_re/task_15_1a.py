@@ -45,4 +45,4 @@ def get_ip_from_cfg(config_file):
 
 
 if __name__ == "__main__":
-	print(get_ip_from_cfg("config_r1.txt"))
+	print(get_ip_from_cfg("config_r2.txt"))
