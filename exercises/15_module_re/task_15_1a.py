@@ -26,8 +26,6 @@
 """
 import re
 
-regex = re.compile(r'interface (?P<intf>\S+)[^!]+ip address (?P<IP>\S+) (?P<mask>\S+)')
-
 def get_ip_from_cfg(config_file):
 	"""
 	Функция обрабатывает конфигурационный файл и выводит имя интерфейса, IP-адрес, маску.
@@ -38,6 +36,7 @@ def get_ip_from_cfg(config_file):
 	- IP-адрес
 	- маска
 	"""
+	regex = re.compile(r'interface (?P<intf>\S+)[^!]+ip address (?P<IP>\S+) (?P<mask>\S+)')
 	with open(config_file) as config:
 		intf_dict = {line.group('intf'): line.group('IP','mask')
 		 for line in regex.finditer(config.read())}
