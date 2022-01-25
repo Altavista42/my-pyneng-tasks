@@ -24,3 +24,24 @@ interface Loopback0
 
 Проверить работу функции на примере файла config_r1.txt.
 """
+import re
+
+regex = re.compile(r'interface (?P<intf>\S+\d+)\n (?!description)', re.DOTALL)
+
+def get_ints_without_description(config_file):
+	"""
+	Функция обрабатывать конфигурацию и возвращать список имен интерфейсов,на которых нет описания (команды description
+	config_file - ожидает в качестве аргумента имя конфигурационного файла.
+	"""
+	with open(config_file) as config:
+		intf_list = [line.group('intf') for line in regex.finditer(config.read())]
+	return intf_list
+
+
+if __name__ == "__main__":
+	print(get_ints_without_description('config_r1.txt'))
+
+
+
+
+
