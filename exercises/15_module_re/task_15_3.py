@@ -32,3 +32,29 @@ object network LOCAL_10.1.9.5
 
 Во всех правилах для ASA интерфейсы будут одинаковыми (inside,outside).
 """
+import re
+
+
+def convert_ios_nat_to_asa(config_file, NAT_ASA_file):
+	"""
+	Функция конвертирует правила NAT из синтаксиса cisco IOS в cisco ASA.
+	config_file - ожидает в качестве аргумента имя файла, в котором находится правила NAT Cisco IO
+	NAT_ASA_file - ожидает в качестве аргумента имя файла, в который надо записать полученные правила NAT для AS
+	Ничего не возвращает.
+	"""
+	regex = re.compile(r'tcp (?P<IP>\S+) (?P<local_port>\d+)(?:\s+\S+){2} (?P<out_port>\d+)')
+	ASA_template = """
+object network LOCAL_{}
+ host {}
+ nat (inside,outside) static interface service tcp {} {}
+"""
+	with open(config_file) as config, open(NAT_ASA_file, 'w') as dest:
+		for line in regex.finditer(config.read()):
+			IP = line.group('IP')
+			local_port = line.group('local_port')
+			out_port = line.group('out_port')
+			dest.write((ASA_template.format(IP, IP, local_port, out_port).rstrip()))
+
+if __name__ == '__main__':
+	convert_ios_nat_to_asa('cisco_nat_config.txt','ASA_NAT.txt')
+
