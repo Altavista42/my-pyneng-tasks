@@ -36,3 +36,46 @@
 в файл topology.yaml. Он понадобится в следующем задании.
 
 """
+import yaml
+import glob
+import re
+
+def generate_topology_from_cdp(list_of_files, save_to_filename=None):
+	"""
+	Функция обрабатывает вывод команды show cdp neighbor из нескольких файлов и записывает итоговую 
+	топологию в один словарь.
+	list_of_files - в качестве аргумента ожидает список файлов из которых надо считать вывод команды sh cdp neighbor
+	save_to_filename - имя файла в формате YAML, в который сохранится топология.
+	значение по умолчанию - None. По умолчанию, топология не сохраняется в файл
+	топология сохраняется только, если save_to_filename как аргумент указано имя файла
+	Функция возвращает словарь, который описывает соединения между устройствами,
+	независимо от того сохраняется ли топология в файл
+	"""
+	device = re.compile(r'(?P<main>\S+)>')
+	neighbor = re.compile(r'(?P<ID>\S+)\s+(?P<local>\S+\s+\d+/\d+).+?(?P<port_id>\w+\s+\d+/\d+)')
+	cdp_dict = {}
+	full_dict = {}
+	for conf_file in list_of_files:
+		with open(conf_file) as config:
+			for line in device.finditer(config.read()):
+				device_id = line.group('main')
+				cdp_dict[device_id] = {}
+		with open(conf_file) as config:
+			for line in neighbor.finditer(config.read()):
+				ID, local, port_id = line.group('ID', 'local', 'port_id')
+				cdp_dict[device_id][local] = {ID : port_id}
+		full_dict.update(cdp_dict)
+	if save_to_filename != None:
+		with open(save_to_filename, 'w') as dest:
+			yaml.dump(full_dict, dest, default_flow_style=False)
+	return full_dict
+
+
+if __name__ == "__main__":
+	show_cdp_n = glob.glob("sh_cdp_n*")
+	print(generate_topology_from_cdp(show_cdp_n))
+
+
+
+
+
