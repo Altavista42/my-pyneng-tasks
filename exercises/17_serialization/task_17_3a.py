@@ -39,6 +39,7 @@
 import yaml
 import glob
 import re
+from task_17_3 import parse_sh_cdp_neighbors
 
 def generate_topology_from_cdp(list_of_files, save_to_filename=None):
 	"""
@@ -53,27 +54,19 @@ def generate_topology_from_cdp(list_of_files, save_to_filename=None):
 	"""
 	device = re.compile(r'(?P<main>\S+)>')
 	neighbor = re.compile(r'(?P<ID>\S+)\s+(?P<local>\S+\s+\d+/\d+).+?(?P<port_id>\w+\s+\d+/\d+)')
-	cdp_dict = {}
-	full_dict = {}
+	topology = {}
 	for conf_file in list_of_files:
 		with open(conf_file) as config:
-			for line in device.finditer(config.read()):
-				device_id = line.group('main')
-				cdp_dict[device_id] = {}
-		with open(conf_file) as config:
-			for line in neighbor.finditer(config.read()):
-				ID, local, port_id = line.group('ID', 'local', 'port_id')
-				cdp_dict[device_id][local] = {ID : port_id}
-		full_dict.update(cdp_dict)
+			topology.update(parse_sh_cdp_neighbors(config.read()))
 	if save_to_filename != None:
 		with open(save_to_filename, 'w') as dest:
-			yaml.dump(full_dict, dest, default_flow_style=False)
-	return full_dict
+			yaml.dump(topology, dest, default_flow_style=False)
+	return topology
 
 
 if __name__ == "__main__":
 	show_cdp_n = glob.glob("sh_cdp_n*")
-	print(generate_topology_from_cdp(show_cdp_n))
+	print(generate_topology_from_cdp(show_cdp_n, 'topology_cdp.yaml'))
 
 
 
