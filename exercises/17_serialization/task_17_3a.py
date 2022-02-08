@@ -66,7 +66,7 @@ def generate_topology_from_cdp(list_of_files, save_to_filename=None):
 
 if __name__ == "__main__":
 	show_cdp_n = glob.glob("sh_cdp_n*")
-	print(generate_topology_from_cdp(show_cdp_n, 'topology_cdp.yaml'))
+	print(generate_topology_from_cdp(show_cdp_n, 'topology.yaml'))
 
 
 
