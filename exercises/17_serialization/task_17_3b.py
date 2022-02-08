@@ -43,3 +43,34 @@
 > pip install graphviz
 
 """
+import yaml
+from draw_network_graph import draw_topology 
+from pprint import pprint
+
+def transform_topology(yaml_file):
+	cdp_dict = {}
+	topology_dict = {}
+	general_map = {}
+	"""
+	Функция обрабатывает файл, содержащий топологию и удаляет дублирующиеся соединения 
+	yaml_file - ожидает в качестве аргумента имя файла в формате yaml, содержащего топологию.
+	Функция возвращает словарь соединения, на основании котрого генерируется изображение топологии.
+	"""
+	with open(yaml_file) as source:
+		topology = yaml.safe_load(source)
+		for item in topology:
+			local_id = item
+			for value in  topology[item]:
+				local_intf = value
+				neighbor = list(topology[item][value].items())[0]
+				cdp_dict[(local_id, local_intf)] = neighbor
+				topology_dict.update(cdp_dict)
+		for key,value in topology_dict.items():
+			if not general_map.get(value) == key:
+				general_map[key] = value
+		draw_topology(general_map)
+	return general_map
+
+
+if __name__ == "__main__":
+	pprint(transform_topology('topology.yaml'))
